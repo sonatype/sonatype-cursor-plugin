@@ -28,7 +28,6 @@ You need a Sonatype Guide account and API token.
 
 ### Configure Your Token
 
-**Option A: Shell profile** (recommended)
 
 Add to `~/.zshrc`, `~/.bashrc`, or `~/.profile`:
 
@@ -41,14 +40,20 @@ Then reload your shell:
 source ~/.zshrc  # or ~/.bashrc
 ```
 
-**Option B: Claude Code settings**
+### Cursor MCP Configuration
 
-Add to `.claude/settings.json` or `~/.claude/settings.json`:
+Add to `.cursor/mcp.json` in the "mcpServers" section:
 
 ```json
 {
-  "env": {
-    "SONATYPE_GUIDE_TOKEN": "your-token-here"
+  "mcpServers": {
+    "sonatype-mcp": {
+      "type": "http",
+      "url": "https://mcp.guide.sonatype.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${SONATYPE_GUIDE_TOKEN}"
+      }
+    }
   }
 }
 ```

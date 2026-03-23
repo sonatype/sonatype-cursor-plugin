@@ -39,7 +39,7 @@ Use this to test the plugin from your machine without pushing to GitHub.
 
 2. **Run the local install script** from this repo:
    ```bash
-   cd /Users/moliverio/projects/sonatype-guide-cursor
+   cd /path/to/sonatype-guide-cursor
    ./scripts/local-plugin-install.sh
    ```
    This script adds `sonatype-guide` to the `local` section of `~/.cursor/plugins/installed.json` (no copy to cache).
@@ -57,19 +57,20 @@ Use this to test the plugin from your machine without pushing to GitHub.
 
 Cursor stores URL-installed plugins under `~/.cursor/plugins/cache/url/`. You can try copying this repo into that structure so Cursor might pick it up.
 
-1. **Run the install-from-GitHub script** (clones into cache and adds to `user` list):
+1. **Run the install-from-GitHub script** (clones this repo into Cursor’s cache; it does **not** modify `installed.json`):
    ```bash
-   cd /Users/moliverio/projects/sonatype-guide-cursor
+   cd /path/to/sonatype-guide-cursor
    ./scripts/install-from-github-to-cache.sh
    ```
-2. **Restart Cursor** and check **Settings → Plugins** for Sonatype Guide.
-3. If it doesn’t appear, the only reliable path is **Option A** (submit to marketplace).
+2. (Optional) To have Cursor treat it as user-installed, **manually add** `"sonatype-guide"` to the `user` array in `~/.cursor/plugins/installed.json` (see Option B for how to back up this file before editing).
+3. **Restart Cursor** and check **Settings → Plugins** for Sonatype Guide.
+4. If it doesn’t appear, the only reliable path is **Option A** (submit to marketplace).
 
-4. **Uninstall (revert) when done testing:**
+5. **Uninstall (revert) when done testing:**
    ```bash
    rm -rf ~/.cursor/plugins/cache/url/https---github-com-sonatype-sonatype-guide-cursor-plugin
-   # Remove sonatype-guide from user array in ~/.cursor/plugins/installed.json if you added it
    ```
+   If you manually added `sonatype-guide` to the `user` array in step 2, remove it from `~/.cursor/plugins/installed.json`.
 
 ---
 

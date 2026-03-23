@@ -39,15 +39,23 @@ Then reload:
 source ~/.zshrc  # or ~/.bashrc
 ```
 
+### Cursor MCP Configuration
 
 Add to `.cursor/mcp.json` in the "mcpServers" section:
- "sonatype-mcp": {
+
+```json
+{
+  "mcpServers": {
+    "sonatype-mcp": {
       "type": "http",
       "url": "https://mcp.guide.sonatype.com/mcp",
       "headers": {
         "Authorization": "Bearer ${SONATYPE_GUIDE_TOKEN}"
       }
     }
+  }
+}
+```
 
 
 ## Verification Steps

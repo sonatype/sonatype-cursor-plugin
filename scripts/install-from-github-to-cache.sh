@@ -11,6 +11,14 @@ PLUGIN_DIR="$CACHE/$SANITIZED/sonatype-guide-cursor-plugin"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOCAL_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
+# Check if git is available when needed
+if ! command -v git &>/dev/null; then
+  if [[ ! -f "$LOCAL_ROOT/.cursor-plugin/plugin.json" ]]; then
+    echo "Error: git is not installed. Please install git to clone the repository."
+    exit 1
+  fi
+fi
+
 echo "Target: $PLUGIN_DIR"
 
 mkdir -p "$CACHE/$SANITIZED"
@@ -23,7 +31,11 @@ if [[ -f "$LOCAL_ROOT/.cursor-plugin/plugin.json" ]]; then
   rm -rf "$PLUGIN_DIR/.git" 2>/dev/null || true
 elif [[ -d "$PLUGIN_DIR/.git" ]]; then
   echo "Updating existing clone..."
-  (cd "$PLUGIN_DIR" && git fetch origin && git reset --hard origin/main 2>/dev/null || git reset --hard origin/master 2>/dev/null || true)
+  (cd "$PLUGIN_DIR" && git fetch origin && (git reset --hard origin/main 2>/dev/null || git reset --hard origin/master)) || {
+    echo "Warning: Failed to update existing clone. Removing and re-cloning..."
+    rm -rf "$PLUGIN_DIR"
+    git clone --depth 1 "$REPO_URL" "$PLUGIN_DIR"
+  }
 else
   echo "Cloning $REPO_URL ..."
   git clone --depth 1 "$REPO_URL" "$PLUGIN_DIR"
