@@ -28,7 +28,7 @@ if [[ -f "$LOCAL_ROOT/.cursor-plugin/plugin.json" ]]; then
   echo "Using local plugin at $LOCAL_ROOT"
   rm -rf "$PLUGIN_DIR"
   cp -R "$LOCAL_ROOT" "$PLUGIN_DIR"
-  rm -rf "$PLUGIN_DIR/.git" 2>/dev/null || true
+  rm -rf "$PLUGIN_DIR/.git"
 elif [[ -d "$PLUGIN_DIR/.git" ]]; then
   echo "Updating existing clone..."
   (cd "$PLUGIN_DIR" && git fetch origin && (git reset --hard origin/main 2>/dev/null || git reset --hard origin/master)) || {

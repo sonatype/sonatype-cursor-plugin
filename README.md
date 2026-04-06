@@ -131,7 +131,6 @@ This plugin connects to the Sonatype Guide MCP server and provides these tools:
 
 **Token not recognized:**
 - If using shell profile, restart your terminal
-- If using settings.json, check JSON syntax
 - Variable name must be exactly `SONATYPE_GUIDE_TOKEN`
 
 ## Links
