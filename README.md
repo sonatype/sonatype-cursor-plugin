@@ -39,7 +39,9 @@ Then reload your shell:
 ```bash
 source ~/.zshrc  # or ~/.bashrc
 ```
-
+**Important for Linux users:** If you installed Cursor via deb/apt, the desktop launcher doesn't inherit shell environment variables. Either:                                         
+  1. Add the token to `~/.profile` (not just `~/.bashrc`) and log out/in, or      
+  2. Launch Cursor from a terminal: `export SONATYPE_GUIDE_TOKEN="..." && cursor`
 ### Cursor MCP Configuration
 
 Add to `.cursor/mcp.json` in the "mcpServers" section:
