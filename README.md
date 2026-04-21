@@ -43,7 +43,7 @@ source ~/.zshrc  # or ~/.bashrc
   1. Add the token to `~/.profile` (not just `~/.bashrc`) and log out/in, or      
   2. Launch Cursor from a terminal: `export SONATYPE_GUIDE_TOKEN="..." && cursor`
 ### Cursor MCP Configuration
-
+"Note: This is optional. The plugin already provides MCP configuration. Add this only if you need a separate manual MCP connection."
 Add to `.cursor/mcp.json` in the "mcpServers" section:
 
 ```json
