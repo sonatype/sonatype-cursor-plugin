@@ -38,7 +38,7 @@ Then reload:
 ```bash
 source ~/.zshrc  # or ~/.bashrc
 ```
-
+**For Linux (deb/apt install):** The desktop launcher doesn't inherit shell variables. Add to `~/.profile` instead and log out/in.
 ### Cursor MCP Configuration
 
 Add to `.cursor/mcp.json` in the "mcpServers" section:
