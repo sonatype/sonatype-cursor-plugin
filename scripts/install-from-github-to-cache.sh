@@ -21,6 +21,11 @@ fi
 
 echo "Target: $PLUGIN_DIR"
 
+if [[ -z "$PLUGIN_DIR" || "$PLUGIN_DIR" == "/" || "$PLUGIN_DIR" == "$HOME" ]]; then
+  echo "Error: Invalid PLUGIN_DIR path: $PLUGIN_DIR"
+  exit 1
+fi
+
 mkdir -p "$CACHE/$SANITIZED"
 
 # If we're in the plugin repo and it has the manifest, copy locally (works before push)
