@@ -1,4 +1,4 @@
-# Sonatype Guide
+# Sonatype Cursor Plugin
 
 AI-powered dependency intelligence for Cursor. Check vulnerabilities, find safer versions, and make better dependency decisions using Sonatype's component data.
 
@@ -9,7 +9,7 @@ AI-powered dependency intelligence for Cursor. Check vulnerabilities, find safer
 **After the plugin is on the marketplace**, in Cursor chat run:
 
 ```
-/add-plugin sonatype-guide
+/add-plugin sonatype-cursor-plugin
 ```
 
 **Workarounds before it’s published:**

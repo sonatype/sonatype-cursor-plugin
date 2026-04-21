@@ -5,9 +5,9 @@
 
 set -e
 CACHE="${CURSOR_PLUGINS:-$HOME/.cursor/plugins}/cache/url"
-SANITIZED="https---github-com-sonatype-sonatype-guide-cursor-plugin"
-REPO_URL="https://github.com/sonatype/sonatype-guide-cursor-plugin.git"
-PLUGIN_DIR="$CACHE/$SANITIZED/sonatype-guide-cursor-plugin"
+SANITIZED="https---github-com-sonatype-sonatype-cursor-plugin"
+REPO_URL="https://github.com/sonatype/sonatype-cursor-plugin.git"
+PLUGIN_DIR="$CACHE/$SANITIZED/sonatype-cursor-plugin"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOCAL_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
