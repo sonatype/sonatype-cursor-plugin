@@ -40,7 +40,7 @@ source ~/.zshrc  # or ~/.bashrc
 ```
 **For Linux (deb/apt install):** The desktop launcher doesn't inherit shell variables. Add to `~/.profile` instead and log out/in.
 ### Cursor MCP Configuration
-
+**Note**: This is optional. The plugin already provides MCP configuration. Add this only if you need a separate manual MCP connection.
 Add to `.cursor/mcp.json` in the "mcpServers" section:
 
 ```json
