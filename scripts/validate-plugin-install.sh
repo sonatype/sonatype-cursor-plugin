@@ -5,7 +5,7 @@
 set -e
 CURSOR_PLUGINS="${CURSOR_PLUGINS:-$HOME/.cursor/plugins}"
 INSTALLED_JSON="$CURSOR_PLUGINS/installed.json"
-PLUGIN_NAME="sonatype-guide"
+PLUGIN_NAME="sonatype-cursor-plugin"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 PASS=0
@@ -23,7 +23,7 @@ check() {
   fi
 }
 
-echo "=== Sonatype Guide plugin validation ==="
+echo "=== Sonatype Cursor Plugin validation ==="
 echo "Plugin root: $PLUGIN_ROOT"
 echo ""
 

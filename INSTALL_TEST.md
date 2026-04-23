@@ -11,25 +11,18 @@ Use this to run **P0-3** from [SPRINT_PLAN.md](./SPRINT_PLAN.md): confirm the pl
 
 ---
 
-## Option A: Install from GitHub (recommended)
+## Option A: Install from marketplace (only way `/add-plugin` works)
 
-Use this if your plugin repo is on GitHub (e.g. `sonatype/sonatype-guide-cursor-plugin` or your fork).
+**Why `/add-plugin` with a GitHub URL does nothing:** Cursor only installs plugins that are **on the Cursor Marketplace**. Typing `/add-plugin sonatype/sonatype-guide-cursor-plugin` or a GitHub URL gives **no response** because the plugin is not in the marketplace yet.
 
-1. **Push the plugin to GitHub** (if not already):
-   - Create a repo and push this project.
-   - Repo root must contain `.cursor-plugin/plugin.json`, `skills/`, `rules/`, `agents/`, `mcp.json`, etc.
+**To make the plugin installable:**
 
-2. **In Cursor:**
-   - Open **Settings** (Cmd+,) → **Plugins** (or **Cursor Settings** → **Plugins**).
-   - Use **Add plugin** / **Install plugin**.
-   - Enter the GitHub URL, e.g.:
-     - `https://github.com/sonatype/sonatype-guide-cursor-plugin`, or
-     - `sonatype/sonatype-guide-cursor-plugin`
-   - If Cursor chat supports `/add-plugin`, you can try:
-     - `/add-plugin sonatype/sonatype-guide-cursor-plugin`
-     - or the full repo URL.
+1. **Submit the plugin** at [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) with repo URL:  
+   `https://github.com/sonatype/sonatype-guide-cursor-plugin`
+2. After approval, Cursor will list it on the marketplace (with a slug like `sonatype-guide`).
+3. **Then** users can run `/add-plugin sonatype-guide` in chat or install via **Settings → Plugins → Browse Marketplace**.
 
-3. **Confirm install:** The plugin should appear in your installed plugins. Enable it if there’s a toggle.
+Until then, use **Option B** (local path) or **Option C** (clone into cache) below.
 
 ---
 
@@ -37,7 +30,7 @@ Use this if your plugin repo is on GitHub (e.g. `sonatype/sonatype-guide-cursor-
 
 Use this to test the plugin from your machine without pushing to GitHub.
 
-**Note:** Plugins added via the `local` section of `installed.json` may **not appear** in Settings → Plugins. Cursor’s UI typically lists plugins installed from the marketplace or by URL. If you need the plugin to show in the Installed list and have MCP/skills load, use **Option A (GitHub)** instead.
+**Note:** Plugins added via the `local` section of `installed.json` may **not appear** in Settings → Plugins. If the plugin still doesn’t show or load, try **Option C** (clone into cache) or submit to the marketplace (Option A).
 
 1. **Back up Cursor’s plugin list** (optional but recommended):
    ```bash
@@ -46,17 +39,38 @@ Use this to test the plugin from your machine without pushing to GitHub.
 
 2. **Run the local install script** from this repo:
    ```bash
-   cd /Users/moliverio/projects/sonatype-guide-cursor
+   cd /path/to/sonatype-guide-cursor
    ./scripts/local-plugin-install.sh
    ```
    This script adds `sonatype-guide` to the `local` section of `~/.cursor/plugins/installed.json` (no copy to cache).
 
-3. **Restart Cursor.** The plugin may still not appear under Installed; if so, install via GitHub (Option A).
+3. **Restart Cursor.** The plugin may still not appear under Installed.
 
 4. **Uninstall (revert) when done testing:**
    ```bash
    ./scripts/local-plugin-uninstall.sh
    ```
+
+---
+
+## Option C: Clone into Cursor’s URL cache (experimental)
+
+Cursor stores URL-installed plugins under `~/.cursor/plugins/cache/url/`. You can try copying this repo into that structure so Cursor might pick it up.
+
+1. **Run the install-from-GitHub script** (clones this repo into Cursor’s cache; it does **not** modify `installed.json`):
+   ```bash
+   cd /path/to/sonatype-guide-cursor
+   ./scripts/install-from-github-to-cache.sh
+   ```
+2. (Optional) To have Cursor treat it as user-installed, **manually add** `"sonatype-guide"` to the `user` array in `~/.cursor/plugins/installed.json` (see Option B for how to back up this file before editing).
+3. **Restart Cursor** and check **Settings → Plugins** for Sonatype Guide.
+4. If it doesn’t appear, the only reliable path is **Option A** (submit to marketplace).
+
+5. **Uninstall (revert) when done testing:**
+   ```bash
+   rm -rf ~/.cursor/plugins/cache/url/https---github-com-sonatype-sonatype-guide-cursor-plugin
+   ```
+   If you manually added `sonatype-guide` to the `user` array in step 2, remove it from `~/.cursor/plugins/installed.json`.
 
 ---
 

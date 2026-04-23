@@ -1,6 +1,6 @@
 {
-  "name": "sonatype-guide",
-  "displayName": "Sonatype Guide",
+  "name": "sonatype-cursor-plugin",
+  "displayName": "Sonatype Cursor Plugin",
   "version": "1.0.0",
   "description": "AI-powered dependency intelligence. Check vulnerabilities, find safer versions, and make better dependency decisions using Sonatype's component data.",
   "author": {
@@ -8,9 +8,9 @@
     "email": "support@sonatype.com"
   },
   "homepage": "https://guide.sonatype.com",
-  "repository": "https://github.com/sonatype/sonatype-guide-cursor-plugin",
+  "repository": "https://github.com/sonatype/sonatype-cursor-plugin",
   "license": "MIT",
-  "logo": "assets/avatar.svg",
+  "logo": "assets/Sonatype-guide-icon-reverse.png",
   "keywords": [
     "dependencies",
     "security",

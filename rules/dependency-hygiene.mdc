@@ -1,4 +1,5 @@
 ---
+name: dependency-hygiene
 description: Proactive dependency guidance when editing package manifests. Suggests security checks before adding or updating dependencies.
 alwaysApply: false
 globs:

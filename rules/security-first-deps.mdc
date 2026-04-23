@@ -1,4 +1,5 @@
 ---
+name: security-first-deps
 description: Security-focused dependency selection guidance. Prioritizes secure, well-maintained packages with compatible licenses.
 alwaysApply: true
 ---

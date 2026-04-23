@@ -1,12 +1,20 @@
-# Sonatype Guide
+# Sonatype Cursor Plugin
 
 AI-powered dependency intelligence for Cursor. Check vulnerabilities, find safer versions, and make better dependency decisions using Sonatype's component data.
 
 ## Installation
 
-```bash
-/add-plugin sonatype-guide
+**Important:** `/add-plugin` with a GitHub URL or `owner/repo` **does nothing** in Cursor (no response). Cursor only installs plugins that are on the **Cursor Marketplace**. So you must either submit this plugin at [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) first, or use a workaround below.
+
+**After the plugin is on the marketplace**, in Cursor chat run:
+
 ```
+/add-plugin sonatype-cursor-plugin
+```
+
+**Workarounds before it’s published:**
+
+- **Local / cache:** See [INSTALL_TEST.md](INSTALL_TEST.md) — Option B (local path in `installed.json`) or Option C (clone into Cursor’s plugin cache).
 
 ## Prerequisites
 
@@ -20,7 +28,6 @@ You need a Sonatype Guide account and API token.
 
 ### Configure Your Token
 
-**Option A: Shell profile** (recommended)
 
 Add to `~/.zshrc`, `~/.bashrc`, or `~/.profile`:
 
@@ -32,15 +39,23 @@ Then reload your shell:
 ```bash
 source ~/.zshrc  # or ~/.bashrc
 ```
-
-**Option B: Claude Code settings**
-
-Add to `.claude/settings.json` or `~/.claude/settings.json`:
+**Important for Linux users:** If you installed Cursor via deb/apt, the desktop launcher doesn't inherit shell environment variables. Either:                                         
+  1. Add the token to `~/.profile` (not just `~/.bashrc`) and log out/in, or      
+  2. Launch Cursor from a terminal: `export SONATYPE_GUIDE_TOKEN="..." && cursor`
+### Cursor MCP Configuration
+"Note: This is optional. The plugin already provides MCP configuration. Add this only if you need a separate manual MCP connection."
+Add to `.cursor/mcp.json` in the "mcpServers" section:
 
 ```json
 {
-  "env": {
-    "SONATYPE_GUIDE_TOKEN": "your-token-here"
+  "mcpServers": {
+    "sonatype-mcp": {
+      "type": "http",
+      "url": "https://mcp.guide.sonatype.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${SONATYPE_GUIDE_TOKEN}"
+      }
+    }
   }
 }
 ```
@@ -118,7 +133,6 @@ This plugin connects to the Sonatype Guide MCP server and provides these tools:
 
 **Token not recognized:**
 - If using shell profile, restart your terminal
-- If using settings.json, check JSON syntax
 - Variable name must be exactly `SONATYPE_GUIDE_TOKEN`
 
 ## Links
