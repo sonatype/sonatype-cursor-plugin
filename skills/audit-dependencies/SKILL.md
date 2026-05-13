@@ -1,13 +1,11 @@
 ---
 name: audit-dependencies
-description: Comprehensive security audit of all project dependencies. Scans package manifests and reports vulnerabilities, license issues, and quality concerns prioritized by severity.
+description: "Comprehensive security audit of all project dependencies using Sonatype Guide. Use when the user asks to audit dependencies, run a CVE scan, check for outdated packages, review supply chain security, or scan a package manifest (package.json, pom.xml, requirements.txt, go.mod, Cargo.toml, Gemfile, build.gradle) for vulnerabilities, license issues, or quality concerns."
 ---
 
 # Audit dependencies
 
-## Trigger
-
-Use when you need a full security audit of your project's dependencies.
+Scans every dependency in a project's package manifest against the Sonatype Guide MCP server, then reports vulnerabilities, license issues, and quality concerns prioritized by severity.
 
 ## Supported File Types
 
@@ -21,23 +19,26 @@ Use when you need a full security audit of your project's dependencies.
 
 ## Workflow
 
-1. Detect dependency file(s) in the current project.
-2. Parse all dependencies with their versions.
-3. Convert each to PURL format.
-4. Batch check via `getComponentVersion` (max 20 per call).
-5. Aggregate and prioritize findings:
-   - **Critical**: Actively exploited vulnerabilities
-   - **High**: Severe vulnerabilities or license violations
-   - **Medium**: Moderate security or quality issues
-   - **Low**: Minor concerns or outdated packages
-6. Generate summary report with actionable recommendations.
-
-## Output
-
-- Executive summary (total dependencies, issues by severity)
-- Detailed findings table
-- Prioritized remediation plan
-- Export option (markdown, JSON, SARIF)
+1. **Detect manifests** — find dependency file(s) in the project root and subdirectories. If none found, ask the user which file to scan.
+2. **Parse dependencies** — extract each dependency name and version from the manifest.
+3. **Convert to PURL** — build a Package URL for each dependency:
+   - npm: `pkg:npm/<name>@<version>`
+   - Maven: `pkg:maven/<groupId>/<artifactId>@<version>`
+   - PyPI: `pkg:pypi/<name>@<version>`
+   - Go: `pkg:golang/<module>@<version>`
+   - Rust: `pkg:cargo/<name>@<version>`
+   - Ruby: `pkg:gem/<name>@<version>`
+4. **Batch check via MCP** — call `getComponentVersion` with up to 20 PURLs per request:
+   ```
+   getComponentVersion({ purl: "pkg:npm/lodash@4.17.20" })
+   ```
+   If a PURL returns no data, log it and continue with the remaining dependencies.
+5. **Classify findings** by severity:
+   - **Critical**: actively exploited vulnerabilities (known KEV)
+   - **High**: severe CVEs or license violations
+   - **Medium**: moderate security or quality issues
+   - **Low**: minor concerns or outdated packages
+6. **Generate report** — produce an executive summary, detailed findings table, and prioritized remediation plan.
 
 ## Example
 
@@ -45,45 +46,28 @@ Use when you need a full security audit of your project's dependencies.
 User: Audit my dependencies
 
 Response:
-## Dependency Audit Report
+## Dependency Audit Report — my-app
 
-**Project**: my-app
 **Scanned**: package.json (47 dependencies)
-**Scan Date**: 2024-01-15
 
-### Summary
 | Severity | Count |
 |----------|-------|
-| Critical | 2 |
-| High | 5 |
-| Medium | 8 |
-| Low | 12 |
-| Clean | 20 |
+| Critical | 2     |
+| High     | 5     |
+| Medium   | 8     |
+| Low      | 12    |
+| Clean    | 20    |
 
-### Critical Issues (Fix Immediately)
+**Critical — fix immediately:**
+1. log4j-core 2.14.0 → CVE-2021-44228 (Log4Shell, RCE) → upgrade to 2.21.0
+2. lodash 4.17.19 → CVE-2021-23337 (Prototype Pollution) → upgrade to 4.17.21
 
-1. **log4j-core 2.14.0**
-   - CVE-2021-44228 (Log4Shell) - Remote Code Execution
-   - Action: Upgrade to 2.21.0
-
-2. **lodash 4.17.19**
-   - CVE-2021-23337 - Prototype Pollution
-   - Action: Upgrade to 4.17.21
-
-### High Priority Issues
-[...]
-
-### Remediation Plan
-1. Run: `npm update lodash`
-2. Update pom.xml: log4j-core 2.14.0 -> 2.21.0
-[...]
-
-Would you like me to apply these fixes?
+Would you like me to apply these fixes, or run `/find-safer-version` for upgrade options?
 ```
 
 ## Guardrails
 
-- Limit batch size to 20 dependencies per API call
-- Cache results for repeated audits in same session
-- Skip devDependencies by default (configurable)
+- Limit batch size to 20 dependencies per `getComponentVersion` call
+- Cache results for repeated audits in the same session
+- Skip devDependencies by default (include with explicit user request)
 - Respect .gitignore and lockfile patterns
